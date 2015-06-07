@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="ftc-common">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/FtcRobotController/libs/ftc-common.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

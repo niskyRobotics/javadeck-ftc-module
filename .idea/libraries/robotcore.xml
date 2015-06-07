@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="robotcore">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/FtcRobotController/libs/robotcore.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

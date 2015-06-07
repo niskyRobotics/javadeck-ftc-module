@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="analytics">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/FtcRobotController/libs/analytics.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

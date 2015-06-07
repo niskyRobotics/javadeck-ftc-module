@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="modern-robotics">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/FtcRobotController/libs/modern-robotics.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

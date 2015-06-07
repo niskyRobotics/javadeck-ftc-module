@@ -3,7 +3,9 @@
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/FtcRobotController/libs/ftc-common.jar!/" />
     </CLASSES>
-    <JAVADOC />
+    <JAVADOC>
+      <root url="file://$PROJECT_DIR$/doc/javadoc" />
+    </JAVADOC>
     <SOURCES />
   </library>
 </component>

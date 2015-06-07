@@ -1,6 +1,8 @@
 package ftc.team6460.javadeck.ftc.peripheral;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorController;
+import com.qualcomm.robotcore.robocol.Telemetry;
 import ftc.team6460.javadeck.api.motion.EncoderedMotor;
 import ftc.team6460.javadeck.api.peripheral.PeripheralCommunicationException;
 import ftc.team6460.javadeck.api.peripheral.PeripheralInoperableException;
@@ -12,45 +14,58 @@ import ftc.team6460.javadeck.api.safety.SafetyGroup;
 public class FtcEncoderedMotor implements EncoderedMotor {
 
     private final DcMotor inner;
+    private final Telemetry telemetry;
+    private double valToWrite;
+    private long shutdownUntil = 0;
+    public FtcEncoderedMotor(DcMotor inner, Telemetry telemetry) {
+        this.inner = inner;
+        this.telemetry = telemetry;
+
+    }
 
     public FtcEncoderedMotor(DcMotor inner) {
         this.inner = inner;
-        inner.getEncoders();
+        this.telemetry = null;
+
     }
 
     @Override
     public void write(Double input) throws InterruptedException, PeripheralCommunicationException, PeripheralInoperableException {
-
+        writeFast(input);
     }
 
     @Override
     public void writeFast(Double input) throws InterruptedException, PeripheralCommunicationException, PeripheralInoperableException {
-
+       doWrite(input);
     }
 
     @Override
     public void loop() {
+        if(System.currentTimeMillis() > shutdownUntil)
+            inner.setPower(0);
 
+        inner.setPower(valToWrite);
     }
 
     @Override
     public void setup() {
-
+        // this is an encodered motor, and we assume PID control in other classes
+        this.inner.setChannelMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
     }
 
     @Override
     public void safetyShutdown(long nanos) throws InterruptedException, PeripheralCommunicationException, PeripheralInoperableException {
-
+        shutdownUntil = System.currentTimeMillis() + (nanos/1000);
     }
 
     @Override
     public void addSafetyGroup(SafetyGroup grp) {
-
+        //pass
     }
 
     @Override
     public void doWrite(double val) throws InterruptedException, PeripheralCommunicationException, PeripheralInoperableException {
-
+        valToWrite = val;
     }
 
     @Override
@@ -61,11 +76,17 @@ public class FtcEncoderedMotor implements EncoderedMotor {
 
     @Override
     public Double read(Void params) throws InterruptedException, PeripheralCommunicationException, PeripheralInoperableException {
-        return null;
+        //todo tweak for Neverest motors
+        return inner.getCurrentPosition() / (1440.0);
     }
 
     @Override
     public void calibrate(Double val, Void params) throws InterruptedException, UnsupportedOperationException, PeripheralInoperableException, PeripheralCommunicationException {
+        if(val!=0){
+            if(telemetry!=null)
+                telemetry.addData("javadeck-last-warning", "Attempted encoder RST nonzero");
+        }
 
+        inner.setChannelMode(DcMotorController.RunMode.RESET_ENCODERS);
     }
 }

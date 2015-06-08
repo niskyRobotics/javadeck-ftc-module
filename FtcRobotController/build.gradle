@@ -1,14 +1,6 @@
-apply plugin: 'com.android.application'
+apply plugin: 'java'
 apply plugin: 'idea'
-android {
-    compileSdkVersion 19
-    buildToolsVersion '21.1.2'
 
-    defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 19
-    }
-}
 
 repositories {
     flatDir {
@@ -16,7 +8,38 @@ repositories {
     }
 }
 
+version = '0.1-alpha-1'
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'me.tatarka:gradle-retrolambda:3.1.0'
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
 dependencies {
-    compile files('libs/android-support-v4.jar')
     compile fileTree(dir: 'libs', include: '*.jar')
+}
+
+task sourcesJar(type: Jar) {
+    classifier 'sources'
+    from sourceSets.main.allSource
+}
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier 'javadoc'
+    from javadoc.destinationDir
+}
+
+
+apply plugin: 'me.tatarka.retrolambda'
+
+retrolambda {
+    javaVersion JavaVersion.VERSION_1_7
+    oldJdk '/usr/lib/jvm/java-7-openjdk-amd64'
 }

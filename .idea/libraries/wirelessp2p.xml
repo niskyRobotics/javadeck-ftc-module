@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="wirelessp2p">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/FtcRobotController/libs/wirelessp2p.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

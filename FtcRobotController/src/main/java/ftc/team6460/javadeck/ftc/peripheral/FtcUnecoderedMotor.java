@@ -37,12 +37,12 @@ public class FtcUnecoderedMotor implements UnencoderedMotor {
     }
 
     @Override
-    public void writeFast(Double input) throws InterruptedException, PeripheralCommunicationException, PeripheralInoperableException {
+    public synchronized void writeFast(Double input) throws InterruptedException, PeripheralCommunicationException, PeripheralInoperableException {
         this.valToWrite = input;
     }
 
     @Override
-    public void loop() {
+    public synchronized void loop() {
         if (System.currentTimeMillis() > shutdownUntil)
             inner.setPowerFloat();
         else
@@ -56,7 +56,7 @@ public class FtcUnecoderedMotor implements UnencoderedMotor {
     }
 
     @Override
-    public void safetyShutdown(long nanos) throws InterruptedException, PeripheralCommunicationException, PeripheralInoperableException {
+    public synchronized void safetyShutdown(long nanos) throws InterruptedException, PeripheralCommunicationException, PeripheralInoperableException {
         shutdownUntil = System.currentTimeMillis() + (nanos / 1000);
     }
 

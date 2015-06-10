@@ -12,11 +12,13 @@ import ftc.team6460.javadeck.api.safety.SafetyGroup;
 
 public class FtcRunToPositionMotor extends SelfContainedServo {
 
+    private static final double ENCODER_TICKS_PER_REVOLUTION = 1440.0;
     private final DcMotor inner;
     private final Telemetry telemetry;
     private double valToWrite;
     private double power;
     private long shutdownUntil = 0;
+
     public FtcRunToPositionMotor(DcMotor inner, Telemetry telemetry) {
         this.inner = inner;
         this.telemetry = telemetry;
@@ -28,28 +30,30 @@ public class FtcRunToPositionMotor extends SelfContainedServo {
         this.telemetry = null;
 
     }
+
     @Override
-    public void writeFast(SlewedDouble pos) throws InterruptedException, PeripheralCommunicationException, PeripheralInoperableException {
+    public synchronized void writeFast(SlewedDouble pos) throws InterruptedException, PeripheralCommunicationException, PeripheralInoperableException {
         valToWrite = pos.getValue();
         power = pos.getSlewRate();
     }
 
     @Override
-    public void safetyShutdown(long nanos) throws InterruptedException, PeripheralCommunicationException, PeripheralInoperableException {
-        shutdownUntil = System.currentTimeMillis() + (nanos/1000);
+    public synchronized void safetyShutdown(long nanos) throws InterruptedException, PeripheralCommunicationException, PeripheralInoperableException {
+        shutdownUntil = System.currentTimeMillis() + (nanos / 1000);
     }
 
     @Override
     public void addSafetyGroup(SafetyGroup safetyGroup) {
         // nothing needed here
     }
+
     @Override
-    public void loop() {
-        if(System.currentTimeMillis() > shutdownUntil)
+    public synchronized void loop() {
+        if (System.currentTimeMillis() > shutdownUntil)
             inner.setPowerFloat();
         else {
-            // handle andymark neverest motors
-            inner.setTargetPosition((int)(valToWrite*1440));
+            // TODO handle andymark neverest motors
+            inner.setTargetPosition((int) (valToWrite * ENCODER_TICKS_PER_REVOLUTION));
             inner.setPower(power);
         }
     }

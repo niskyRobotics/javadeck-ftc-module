@@ -13,6 +13,7 @@ import ftc.team6460.javadeck.api.safety.SafetyGroup;
  */
 public class FtcEncoderedMotor implements EncoderedMotor {
 
+    private static final double ENCODER_TICKS_PER_REVOLUTION = 1440.0;
     private final DcMotor inner;
     private final Telemetry telemetry;
     private double valToWrite;
@@ -41,7 +42,7 @@ public class FtcEncoderedMotor implements EncoderedMotor {
     }
 
     @Override
-    public void loop() {
+    public synchronized void loop() {
         if (System.currentTimeMillis() > shutdownUntil)
             inner.setPowerFloat();
 
@@ -55,7 +56,7 @@ public class FtcEncoderedMotor implements EncoderedMotor {
     }
 
     @Override
-    public void safetyShutdown(long nanos) throws InterruptedException, PeripheralCommunicationException, PeripheralInoperableException {
+    public synchronized void safetyShutdown(long nanos) throws InterruptedException, PeripheralCommunicationException, PeripheralInoperableException {
         shutdownUntil = System.currentTimeMillis() + (nanos / 1000);
     }
 
@@ -65,7 +66,7 @@ public class FtcEncoderedMotor implements EncoderedMotor {
     }
 
     @Override
-    public void doWrite(double val) throws InterruptedException, PeripheralCommunicationException, PeripheralInoperableException {
+    public synchronized void doWrite(double val) throws InterruptedException, PeripheralCommunicationException, PeripheralInoperableException {
         valToWrite = val;
     }
 
@@ -78,7 +79,7 @@ public class FtcEncoderedMotor implements EncoderedMotor {
     @Override
     public Double read(Void params) throws InterruptedException, PeripheralCommunicationException, PeripheralInoperableException {
         //todo tweak for Neverest motors
-        return inner.getCurrentPosition() / (1440.0);
+        return inner.getCurrentPosition() / ENCODER_TICKS_PER_REVOLUTION;
     }
 
     @Override

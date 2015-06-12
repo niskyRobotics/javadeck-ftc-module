@@ -3,6 +3,7 @@ package ftc.team6460.javadeck.ftc.peripheral;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.robocol.Telemetry;
+import ftc.team6460.javadeck.api.Maintainer;
 import ftc.team6460.javadeck.api.motion.EncoderedMotor;
 import ftc.team6460.javadeck.api.peripheral.PeripheralCommunicationException;
 import ftc.team6460.javadeck.api.peripheral.PeripheralInoperableException;
@@ -18,17 +19,20 @@ public class FtcEncoderedMotor implements EncoderedMotor {
     private final Telemetry telemetry;
     private double valToWrite;
     private long shutdownUntil = 0;
-
-    public FtcEncoderedMotor(DcMotor inner, Telemetry telemetry) {
+    private final Maintainer opMode;
+    public FtcEncoderedMotor(DcMotor inner, Telemetry telemetry, Maintainer opMode) {
         this.inner = inner;
         this.telemetry = telemetry;
 
+        this.opMode = opMode;
+        opMode.accept(this);
     }
 
-    public FtcEncoderedMotor(DcMotor inner) {
+    public FtcEncoderedMotor(DcMotor inner, Maintainer opMode) {
         this.inner = inner;
+        this.opMode = opMode;
         this.telemetry = null;
-
+        opMode.accept(this);
     }
 
     @Override

@@ -1,8 +1,9 @@
-package ftc.team6460.javadeck.ftc.opmode;
+package ftc.team6460.javadeck.ftc.peripheral;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import ftc.team6460.javadeck.ftc.opmode.FtcBaseOpMode;
 import ftc.team6460.javadeck.ftc.peripheral.Ftc3WireServo;
 import ftc.team6460.javadeck.ftc.peripheral.FtcEncoderedMotor;
 import ftc.team6460.javadeck.ftc.peripheral.FtcRunToPositionMotor;

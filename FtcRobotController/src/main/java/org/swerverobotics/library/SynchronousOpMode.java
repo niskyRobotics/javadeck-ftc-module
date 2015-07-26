@@ -1,15 +1,16 @@
 package org.swerverobotics.library;
 
-import java.util.*;
-import java.util.concurrent.*;
-import java.util.concurrent.atomic.*;
 import android.util.SparseArray;
-import junit.framework.Assert;
-import com.qualcomm.ftcrobotcontroller.BuildConfig;
-import com.qualcomm.robotcore.hardware.*;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import org.swerverobotics.library.exceptions.*;
+import com.qualcomm.robotcore.hardware.*;
+import org.swerverobotics.library.exceptions.RuntimeInterruptedException;
 import org.swerverobotics.library.thunking.*;
+
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 // Work items:
 //      * TODO: investigate: 'getPower on legacy NXT-compatible motor controller returns a null value' (eh?)
@@ -371,7 +372,7 @@ public abstract class SynchronousOpMode extends OpMode implements IThunker
      */
     public void setThreadThunker()
         {
-        if (BuildConfig.DEBUG) Assert.assertEquals(false, this.isLoopThread());
+        //if (BuildConfig.DEBUG) Assert.assertEquals(false, this.isLoopThread());
         SynchronousThreadContext.setThreadThunker(this);
         }
 
@@ -483,7 +484,7 @@ public abstract class SynchronousOpMode extends OpMode implements IThunker
      */
     public void executeOnLoopThread(IAction thunk)
         {
-        if (BuildConfig.DEBUG) Assert.assertEquals(true, this.isSynchronousThread());
+        //if (BuildConfig.DEBUG) Assert.assertEquals(true, this.isSynchronousThread());
         this.loopThreadThunkQueue.add(thunk);
         }
 
@@ -496,7 +497,7 @@ public abstract class SynchronousOpMode extends OpMode implements IThunker
      */
     public void executeSingletonOnLoopThread(int key, IAction action)
         {
-        if (BuildConfig.DEBUG) Assert.assertEquals(true, this.isSynchronousThread());
+        //if (BuildConfig.DEBUG) Assert.assertEquals(true, this.isSynchronousThread());
         synchronized (this.singletonLoopActions)
             {
             this.singletonLoopActions.put(key, action);

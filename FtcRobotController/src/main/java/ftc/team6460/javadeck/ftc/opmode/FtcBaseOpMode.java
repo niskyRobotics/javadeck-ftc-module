@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import ftc.team6460.javadeck.api.Maintainable;
 import ftc.team6460.javadeck.api.Maintainer;
 import ftc.team6460.javadeck.ftc.peripheral.FtcPeripheralsFactory;
+import org.swerverobotics.library.SynchronousOpMode;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -11,7 +12,7 @@ import java.util.Set;
 /**
  * Created by hexafraction on 6/11/15.
  */
-public abstract class FtcBaseOpMode extends OpMode implements Maintainer {
+public abstract class FtcBaseOpMode extends SynchronousOpMode implements Maintainer {
     private final Set<Maintainable> toMaintain = new HashSet<>();
 
     /**
@@ -22,38 +23,24 @@ public abstract class FtcBaseOpMode extends OpMode implements Maintainer {
     protected volatile boolean run = false;
 
     protected FtcPeripheralsFactory peripheralFactory = new FtcPeripheralsFactory(super.hardwareMap, this);
-    private volatile Thread runThread;
+
+
 
     @Override
     public void accept(Maintainable m) {
-        toMaintain.add(m);
+        this.executeOnLoopThread(m::loop);
     }
 
 
-    //synchronization not needed; start(), loop(), and stop() are called from same thread (guarantee by com.qualcomm API)
     @Override
-    public void start() {
-        for (Maintainable m : toMaintain) {
-            m.setup();
-        }
-        run = true;
-        runThread = new Thread(() -> {
-            doActions();
-        }, "FtcOpModeAsyncThread@" + this.hashCode());
-        runThread.start();
-
-    }
-
-    @Override
-    public void loop() {
-        for (Maintainable m : toMaintain) {
+    protected void postStartHook()  {
+        for(Maintainable m : toMaintain){
             m.setup();
         }
     }
 
     @Override
-    public void stop() {
-        run=false;
-        runThread.interrupt();
+    protected void main(){
+        doActions();
     }
 }

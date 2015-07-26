@@ -75,7 +75,24 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="javadeck-all-0.1-alpha-1" level="project" />
+    <orderEntry type="module-library" exported="">
+      <library name="Gradle: javadeck-all-0.1-alpha-1">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/javadeck-all-0.1-alpha-1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library name="Gradle: android">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/libs/android.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
   <component name="org.twodividedbyzero.idea.findbugs">
     <option name="_basePreferences">

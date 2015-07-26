@@ -1,3 +1,4 @@
+
 apply plugin: 'java'
 apply plugin: 'idea'
 
@@ -43,3 +44,4 @@ retrolambda {
     javaVersion JavaVersion.VERSION_1_7
     oldJdk '/usr/lib/jvm/java-7-openjdk-amd64'
 }
+

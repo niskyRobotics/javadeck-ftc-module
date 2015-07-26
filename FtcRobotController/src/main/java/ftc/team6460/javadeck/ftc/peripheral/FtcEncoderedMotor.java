@@ -1,5 +1,6 @@
 package ftc.team6460.javadeck.ftc.peripheral;
 
+import com.qualcomm.modernrobotics.ModernRoboticsUsbLegacyModule;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.robocol.Telemetry;
@@ -20,10 +21,10 @@ public class FtcEncoderedMotor implements EncoderedMotor {
     private double valToWrite;
     private long shutdownUntil = 0;
     private final Maintainer opMode;
+
     public FtcEncoderedMotor(DcMotor inner, Telemetry telemetry, Maintainer opMode) {
         this.inner = inner;
         this.telemetry = telemetry;
-
         this.opMode = opMode;
         opMode.accept(this);
     }

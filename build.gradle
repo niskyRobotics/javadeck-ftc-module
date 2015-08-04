@@ -5,7 +5,11 @@ buildscript {
         mavenCentral()
     }
     dependencies {
+<<<<<<< HEAD
         classpath 'com.android.tools.build:gradle:1.1.1'
+=======
+        classpath 'com.android.tools.build:gradle:1.2.3'
+>>>>>>> 408dfba609f1700f92c7b8cfba235b0467796ede
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

@@ -16,11 +16,11 @@ import ftc.team6460.javadeck.api.safety.SafetyGroup;
 public class FtcEncoderedMotor implements EncoderedMotor {
 
     private static final double ENCODER_TICKS_PER_REVOLUTION = 1440.0;
-    private final DcMotor inner;
-    private final Telemetry telemetry;
+    /*package-private*/ DcMotor inner;
+    final Telemetry telemetry;
     private double valToWrite;
     private long shutdownUntil = 0;
-    private final Maintainer opMode;
+    /*package-private*/ Maintainer opMode;
 
     public FtcEncoderedMotor(DcMotor inner, Telemetry telemetry, Maintainer opMode) {
         this.inner = inner;

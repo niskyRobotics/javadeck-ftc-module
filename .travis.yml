@@ -6,3 +6,7 @@ jdk:
 script:
   - jdk_switcher use oraclejdk8
   - gradle check
+
+
+notifications:
+  email: false
